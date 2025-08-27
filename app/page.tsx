@@ -13,7 +13,7 @@ export default function Home() {
   
 
   useEffect(() => {
-    setMessages(["• Type anything to chat normally  /history <topic> → short history + fun fact   /info <topic> → quick info in bullet points   /news → today’s top headlines    Try these examples:- /history Napoleon - /info JavaScript "]);
+    setMessages(["Welcome! You can chat normally, or use commands like /history <topic>, /info <topic>, or /news to explore."]);
   }, []);
 
   // 👇 this runs every time messages change
@@ -51,7 +51,7 @@ export default function Home() {
     <div className="h-full w-full flex items-center justify-center text-sm bg-blue-50">
       <div className="h-[95%] lg:w-[60%] w-[90%] bg-none rounded-lg border-none lg:border-2 border-indigo-200 flex flex-col-reverse items-center py-10">
         {/* Input */}
-        <div className="w-[95%] flex items-center justify-between h-[7%] ">
+        <div className="w-[95%] flex items-center justify-between h-[2rem] ">
           <input
             type="text"
             className="w-[80%] h-full rounded-4xl bg-white border-2 border-green-300 p-1 px-3"
