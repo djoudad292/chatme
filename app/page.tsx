@@ -13,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     setMessages([
-      "👋 Welcome! You can chat normally, or use commands like /history <topic>, /info <topic>, or /news to explore.",
+      "👋 Welcome! How can I assist you today?",
     ]);
   }, []);
 
