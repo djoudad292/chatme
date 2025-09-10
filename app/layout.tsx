@@ -26,15 +26,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen w-full bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen w-full bg-gray-100`}
       >
-        <div className="h-[9%] w-full border-b-2 border-indigo-300 lg:px-[15%] px-[5%] flex items-center  ">
-          <Image src="/logo.png" alt="Logo" width={100} height={100} />
+        {/* Navbar */}
+        <div className="h-[9%] w-full bg-white border-b border-indigo-200 shadow-sm lg:px-[15%] px-[5%] flex items-center">
+          <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
         </div>
-      <div className="h-[90%] w-full">
-        {children}
-      </div>
-    </body>
-  </html>
-  )
+
+        {/* Main content */}
+        <div className="h-[91%] w-full lg:px-[15%] px-[5%]">
+          {children}
+        </div>
+      </body>
+    </html>
+  );
 }
