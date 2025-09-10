@@ -29,13 +29,22 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen w-full bg-gray-100`}
       >
         {/* Navbar */}
-        <div className="h-[9%] w-full bg-white border-b border-indigo-200 shadow-sm lg:px-[15%] px-[5%] flex items-center">
-          <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
+        <div className="h-[9%] w-full bg-white border-b border-indigo-200 shadow-sm px-4 sm:px-6 md:px-10 lg:px-[15%] flex items-center">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+            className="w-20 h-auto sm:w-24 md:w-28 lg:w-32"
+            priority
+          />
         </div>
 
         {/* Main content */}
-        <div className="h-[91%] w-full lg:px-[15%] px-[5%]">
-          {children}
+        <div className="h-[91%] w-full flex justify-center items-center px-2 sm:px-4 md:px-8 lg:px-[10%]">
+          <div className="w-full sm:w-[95%] md:w-[90%] lg:w-[75%] h-full bg-white rounded-lg shadow-md overflow-hidden">
+            {children}
+          </div>
         </div>
       </body>
     </html>
