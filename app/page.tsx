@@ -10,13 +10,13 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  
 
   useEffect(() => {
-    setMessages(["Welcome! You can chat normally, or use commands like /history <topic>, /info <topic>, or /news to explore."]);
+    setMessages([
+      "👋 Welcome! You can chat normally, or use commands like /history <topic>, /info <topic>, or /news to explore.",
+    ]);
   }, []);
 
-  // 👇 this runs every time messages change
   useEffect(() => {
     if (divref.current) {
       divref.current.scrollTo({
@@ -48,73 +48,68 @@ export default function Home() {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center text-sm bg-blue-50">
-      <div className="h-[95%] lg:w-[60%] w-[90%] bg-none rounded-lg border-none lg:border-2 border-indigo-200 flex flex-col-reverse items-center py-10">
-        {/* Input */}
-        <div className="w-[95%] flex items-center justify-between h-[2rem] ">
-          <input
-            type="text"
-            className="w-[80%] h-full rounded-4xl bg-white border-2 border-green-300 p-1 px-3"
-            placeholder="Write a message ..."
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-          />
-          <button
-            className={`lg:h-12 hover:scale-125 ease-linear duration-200 lg:w-12 h-10 w-10 rounded-full border-indigo-200 bg-gray-100 border-2 flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-              message && "opacity-70"
-            } ${loading && "scale-75 opacity-50"}`}
-            disabled={!message || loading}
-            onClick={handleSendMessage}
-          >
-            <IoIosSend className="text-green-500" size={30} />
-          </button>
-        </div>
-
-        {/* Loader */}
-        {loading && (
-          <div className="w-full py-5">
-            <div className="py-5 max-w-[80%] min-w-[20%]">
-              <RiGeminiLine className="text-green-500" size={30} />
-              <div className="text-gray-700 ml-2 indent-[10%] animate-pulse">
-                Wait for the answer...
-              </div>
-            </div>
-          </div>
-        )}
-
+    <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <div className="h-[95%] lg:w-[60%] w-[95%] bg-white shadow-xl rounded-2xl border border-indigo-100 flex flex-col">
+        
         {/* Messages */}
         <div
           ref={divref}
-          className="h-[90%] w-[98%] px-[3%] flex flex-col overflow-y-auto"
+          className="flex-1 w-full px-4 py-6 flex flex-col overflow-y-auto space-y-4"
         >
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`w-full py-5 flex ${
+              className={`flex w-full ${
                 index % 2 === 0 ? "justify-start" : "justify-end"
               }`}
             >
-              <div
-                className={`py-5 max-w-[80%] min-w-[20%] ${
-                  index % 2 === 0 ? "" : "order-2"
-                }`}
-              >
-                {index % 2 === 0 ? (
-                  <>
-                    <RiGeminiLine
-                      className="text-green-500 cursor-pointer"
-                      size={30}
-                    />
-                    <div className="text-gray-700 ml-2 pl-6">{msg}</div>
-                  </>
-                ) : (
-                  <div className="text-white font-bold bg-indigo-400 lg:p-4 p-3 border-2 border-blue-200 rounded-2xl rounded-tr-none">
+              {index % 2 === 0 ? (
+                <div className="flex items-start space-x-2 max-w-[80%]">
+                  <RiGeminiLine
+                    className="text-green-500 mt-1"
+                    size={28}
+                  />
+                  <div className="bg-gray-100 text-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm">
                     {msg}
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="bg-indigo-500 text-white font-medium p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%]">
+                  {msg}
+                </div>
+              )}
             </div>
           ))}
+
+          {loading && (
+            <div className="flex items-center space-x-2 text-gray-600 animate-pulse">
+              <RiGeminiLine className="text-green-500" size={26} />
+              <span>Thinking...</span>
+            </div>
+          )}
+        </div>
+
+        {/* Input Bar */}
+        <div className="border-t border-gray-200 p-4 flex items-center space-x-3 bg-white rounded-b-2xl">
+          <input
+            type="text"
+            className="flex-1 h-12 rounded-full bg-gray-50 border border-gray-300 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            placeholder="Write a message..."
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+          />
+          <button
+            className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-200 ${
+              message && !loading
+                ? "bg-indigo-500 hover:bg-indigo-600 text-white"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
+            disabled={!message || loading}
+            onClick={handleSendMessage}
+          >
+            <IoIosSend size={24} />
+          </button>
         </div>
       </div>
     </div>
