@@ -10,11 +10,23 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [ok, setOk] = useState(false);
   useEffect(() => {
     setMessages([
       "👋 Welcome! How can I assist you today?",
     ]);
+  }, []);
+
+useEffect(() => {
+    const checkServer = async () => {
+      try {
+        await axios.get("https://chatbot-temp.onrender.com/");
+        setOk(true);
+      } catch (error) {
+        setOk(false);
+      }
+    };
+    checkServer();
   }, []);
 
   useEffect(() => {
@@ -48,7 +60,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center text-sm bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+    ( ok &&  <div className="h-full w-full flex items-center justify-center text-sm bg-gradient-to-br from-indigo-50 via-white to-blue-50">
       <div className="h-[95%] lg:w-[60%] w-[90%] rounded-lg border border-indigo-200 bg-white shadow-md flex flex-col-reverse items-center py-10">
         
         {/* Input */}
@@ -109,6 +121,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-    </div>
+    </div>)
   );
 }
