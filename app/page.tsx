@@ -20,7 +20,10 @@ export default function Home() {
 useEffect(() => {
     const checkServer = async () => {
       try {
-        await axios.get("https://chatbot-temp.onrender.com/");
+        let res;
+        do {
+          res = await axios.get("https://chatbot-temp.onrender.com/");
+        } while (res.status !== 200);
         setOk(true);
       } catch (error) {
         setOk(false);
