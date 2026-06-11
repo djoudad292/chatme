@@ -1,129 +1,155 @@
-"use client";
-import { RiGeminiLine } from "react-icons/ri";
-import { IoIosSend } from "react-icons/io";
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+'use client'
 
-export default function Home() {
-  const divref = useRef<HTMLDivElement>(null);
+import Link from 'next/link'
+import { MessageSquare, Bot, Zap, BookOpen, Users, BarChart3, ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import ChatWidgetPreview from '@/components/chat-widget-preview'
 
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    setMessages([
-      "👋 Welcome! How can I assist you today?",
-    ]);
-  }, []);
+const features = [
+  {
+    icon: Bot,
+    title: 'Multi-Tenant',
+    description: 'Manage multiple companies and teams from a single dashboard with isolated data and configurations.',
+  },
+  {
+    icon: Zap,
+    title: 'AI-Powered',
+    description: 'Intelligent chatbots that understand context and provide accurate responses to customer inquiries.',
+  },
+  {
+    icon: MessageSquare,
+    title: 'Real-Time Chat',
+    description: 'Instant messaging with live typing indicators and WebSocket-powered real-time communication.',
+  },
+  {
+    icon: BookOpen,
+    title: 'Knowledge Base',
+    description: 'Centralized knowledge management that AI references to provide accurate, consistent answers.',
+  },
+  {
+    icon: Users,
+    title: 'Human Handoff',
+    description: 'Seamless escalation to human agents when AI encounters complex or sensitive issues.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Analytics',
+    description: 'Detailed insights into conversation volumes, AI performance, and team productivity.',
+  },
+]
 
-useEffect(() => {
-    const checkServer = async () => {
-      try {
-        let res;
-        do {
-          res = await axios.get("https://chatbot-temp.onrender.com/");
-        } while (res.status !== 200);
-        setOk(true);
-      } catch (error) {
-        setOk(false);
-      }
-    };
-    checkServer();
-  }, []);
-
-  useEffect(() => {
-    if (divref.current) {
-      divref.current.scrollTo({
-        top: divref.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [messages]);
-
-  const handleSendMessage = async () => {
-    if (!message) return;
-
-    const userMessage = message;
-    setMessages((prev) => [...prev, userMessage]);
-    setMessage("");
-    setLoading(true);
-
-    try {
-      const response = await axios.post("https://chatbot-temp.onrender.com/ai", {
-        question: userMessage,
-      });
-      const botMessage = response.data.answer;
-      setMessages((prev) => [...prev, botMessage]);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setLoading(false);
-    }
-  };
+export default function LandingPage() {
+  const [showDemo, setShowDemo] = useState(false)
 
   return (
-    ( ok &&  <div className="h-full w-full flex items-center justify-center text-sm bg-gradient-to-br from-indigo-50 via-white to-blue-50">
-      <div className="h-[95%] lg:w-[60%] w-[90%] rounded-lg border border-indigo-200 bg-white shadow-md flex flex-col-reverse items-center py-10">
-        
-        {/* Input */}
-        <div className="w-[95%] flex items-center justify-between h-[2.5rem]">
-          <input
-            type="text"
-            className="w-[80%] h-full rounded-full bg-gray-50 border border-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 p-2 px-3"
-            placeholder="Write a message ..."
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-          />
-          <button
-            className={`lg:h-12 lg:w-12 h-10 w-10 rounded-full flex items-center justify-center transition-all duration-200 ${
-              message && !loading
-                ? "bg-indigo-500 hover:bg-indigo-600 text-white"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-            } ${loading && "scale-90 opacity-50"}`}
-            disabled={!message || loading}
-            onClick={handleSendMessage}
-          >
-            <IoIosSend size={22} />
-          </button>
-        </div>
-
-        {/* Loader */}
-        {loading && (
-          <div className="w-full py-5 flex items-center space-x-2 text-gray-500 animate-pulse">
-            <RiGeminiLine className="text-indigo-500" size={28} />
-            <span>Thinking...</span>
-          </div>
-        )}
-
-        {/* Messages */}
-        <div
-          ref={divref}
-          className="h-[90%] w-[98%] px-[3%] flex flex-col overflow-y-auto"
-        >
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`w-full py-2 flex ${
-                index % 2 === 0 ? "justify-start" : "justify-end"
-              }`}
-            >
-              <div
-                className={`max-w-[75%] ${
-                  index % 2 === 0 ? "bg-gray-100 text-gray-800" : "bg-indigo-500 text-white"
-                } p-3 rounded-2xl shadow-sm ${
-                  index % 2 === 0 ? "rounded-tl-none" : "rounded-tr-none"
-                }`}
-              >
-                {index % 2 === 0 && (
-                  <RiGeminiLine className="inline-block text-indigo-500 mr-2" size={20} />
-                )}
-                {msg}
-              </div>
+    <div className="min-h-screen bg-background">
+      <header className="fixed top-0 z-30 w-full border-b border-border bg-background/80 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+              <MessageSquare className="h-4 w-4 text-primary-foreground" />
             </div>
-          ))}
+            <span className="text-lg font-semibold text-foreground">AI Support</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/login"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/register"
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
-      </div>
-    </div>)
-  );
+      </header>
+
+      <main>
+        <section className="relative overflow-hidden pt-32 pb-20">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+          <div className="mx-auto max-w-7xl px-6 text-center">
+            <h1 className="animate-fade-in-up text-5xl font-bold tracking-tight text-foreground md:text-6xl">
+              AI Customer Support
+              <br />
+              <span className="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+                Platform
+              </span>
+            </h1>
+            <p className="animate-fade-in-up-delay-1 mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+              A multi-tenant AI customer support platform with intelligent chatbots, real-time messaging,
+              smart knowledge base management, and seamless human handoff.
+            </p>
+            <div className="animate-fade-in-up-delay-2 mt-10 flex items-center justify-center gap-4">
+              <Link
+                href="/register"
+                className="rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                Get Started
+              </Link>
+              <button
+                onClick={() => {
+                  setShowDemo(true)
+                  document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="rounded-xl border border-border px-8 py-3 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+              >
+                Live Demo
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="animate-fade-in-up text-center text-3xl font-bold text-foreground">
+              Everything you need to scale support
+            </h2>
+            <p className="animate-fade-in-up-delay-1 mx-auto mt-4 max-w-xl text-center text-muted-foreground">
+              Powerful features designed to help you deliver exceptional customer support at scale.
+            </p>
+            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((feature, i) => {
+                const Icon = feature.icon
+                return (
+                  <div
+                    key={feature.title}
+                    className={`animate-fade-in-up-delay-${Math.min(i + 1, 3)} group rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5`}
+                  >
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="mb-2 text-lg font-semibold text-foreground">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {showDemo && (
+          <section id="demo" className="py-20">
+            <div className="mx-auto max-w-7xl px-6 text-center">
+              <h2 className="text-3xl font-bold text-foreground">Live Demo</h2>
+              <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+                Try the chat widget below. This is a live preview connected to the AI backend.
+              </p>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer className="border-t border-border py-8">
+        <div className="mx-auto max-w-7xl px-6 text-center text-sm text-muted-foreground">
+          &copy; {new Date().getFullYear()} AI Support Platform. All rights reserved.
+        </div>
+      </footer>
+
+      {showDemo && <ChatWidgetPreview />}
+    </div>
+  )
 }
