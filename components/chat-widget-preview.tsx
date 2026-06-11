@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { getSocketUrl } from '@/lib/api'
-import { MessageSquare, X, Send, Loader2 } from 'lucide-react'
+import { MessageSquare, X, Send } from 'lucide-react'
 
 interface Message {
   id: string
