@@ -110,7 +110,10 @@
       '@keyframes ai-bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }',
       '@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }',
       '#ai-widget-root .ai-msg.system { align-self:center; background:transparent; color:#64748b; font-size:12px; max-width:100%; text-align:center; }',
-      '#ai-widget-root .ai-input-row { display:flex; gap:8px; padding:12px 16px; border-top:1px solid #e2e8f0; background:#fff; flex-shrink:0; }',
+      '#ai-widget-root .ai-footer { text-align:center; font-size:10px; color:#94a3b8; padding:6px 16px; border-top:1px solid #e2e8f0; background:#fff; flex-shrink:0; }',
+      '#ai-widget-root .ai-footer a { color:#3b82f6; text-decoration:none; }',
+      '#ai-widget-root .ai-footer a:hover { text-decoration:underline; }',
+      '#ai-widget-root .ai-input-row { display:flex; gap:8px; padding:12px 16px; background:#fff; flex-shrink:0; }',
       '#ai-widget-root .ai-input-row input { flex:1; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px; font-size:14px; outline:none; transition:border .15s; }',
       '#ai-widget-root .ai-input-row input:focus { border-color:' + p + '; }',
       '#ai-widget-root .ai-input-row input:disabled { background:#f1f5f9; }',
@@ -190,6 +193,12 @@
       typingEl.appendChild(dot);
     }
     msgContainer.appendChild(typingEl);
+
+    /* footer */
+    var footer = document.createElement('div');
+    footer.className = 'ai-footer';
+    footer.innerHTML = 'Powered by <a href="https://djaouad.tech" target="_blank">djaouad.tech</a>';
+    panel.appendChild(footer);
 
     /* input */
     var row = document.createElement('div');

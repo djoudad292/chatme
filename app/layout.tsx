@@ -7,8 +7,8 @@ import { ToastProvider } from '@/components/toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AI Support Platform',
-  description: 'Multi-tenant AI customer support platform with intelligent chatbots, real-time messaging, and smart knowledge base management.',
+  title: 'AI Support Platform - Demo',
+  description: 'Demo by djaouad.tech — Multi-tenant AI customer support platform with intelligent chatbots, real-time messaging, and smart knowledge base management.',
 }
 
 export default function RootLayout({

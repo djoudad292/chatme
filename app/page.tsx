@@ -50,6 +50,7 @@ export default function LandingPage() {
               <MessageSquare className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="text-lg font-semibold text-foreground">AI Support</span>
+            <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-400">DEMO</span>
           </div>
           <div className="flex items-center gap-4">
             <Link
@@ -82,6 +83,9 @@ export default function LandingPage() {
             <p className="animate-fade-in-up-delay-1 mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
               A multi-tenant AI customer support platform with intelligent chatbots, real-time messaging,
               smart knowledge base management, and seamless human handoff.
+            </p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Demo by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
             </p>
             <div className="animate-fade-in-up-delay-2 mt-10 flex items-center justify-center gap-4">
               <Link
@@ -145,7 +149,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-border py-8">
         <div className="mx-auto max-w-7xl px-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} AI Support Platform. All rights reserved.
+          &copy; {new Date().getFullYear()} AI Support Platform — Demo by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
         </div>
       </footer>
 

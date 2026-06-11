@@ -32,6 +32,7 @@ export default function Sidebar() {
           <MessageSquare className="h-4 w-4 text-primary-foreground" />
         </div>
         <span className="text-sm font-semibold text-foreground">AI Support</span>
+        <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-medium text-amber-400">DEMO</span>
       </div>
 
       <nav className="flex-1 space-y-1 p-4">
@@ -56,6 +57,11 @@ export default function Sidebar() {
         })}
       </nav>
 
+      <div className="border-t border-border px-4 py-2">
+        <p className="text-[10px] text-muted-foreground text-center">
+          Powered by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">djaouad.tech</a>
+        </p>
+      </div>
       <div className="border-t border-border p-4">
         <div className="mb-3 flex items-center gap-3 rounded-lg px-3 py-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-sm font-medium text-primary">
