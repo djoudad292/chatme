@@ -86,6 +86,12 @@ export default function LoginPage() {
             Create one
           </Link>
         </p>
+        <p className="mt-6 text-center text-[10px] text-muted-foreground/50">
+          Demo by{' '}
+          <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">djaouad.tech</a>
+          {' '}&mdash; Built by{' '}
+          <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">djaouad frih</a>
+        </p>
       </div>
     </div>
   )

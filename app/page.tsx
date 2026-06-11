@@ -84,8 +84,14 @@ export default function LandingPage() {
               A multi-tenant AI customer support platform with intelligent chatbots, real-time messaging,
               smart knowledge base management, and seamless human handoff.
             </p>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Demo by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Demo by{' '}
+              <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
+              {' '}&mdash; Built by{' '}
+              <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">djaouad frih</a>
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground/60">
+              No database required &middot; Fully in-memory demo &middot; No data persists
             </p>
             <div className="animate-fade-in-up-delay-2 mt-10 flex items-center justify-center gap-4">
               <Link
@@ -149,7 +155,10 @@ export default function LandingPage() {
 
       <footer className="border-t border-border py-8">
         <div className="mx-auto max-w-7xl px-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} AI Support Platform — Demo by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
+          &copy; {new Date().getFullYear()} AI Support Platform &mdash; Demo by{' '}
+          <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">djaouad.tech</a>
+          {' '}&mdash; Developer{' '}
+          <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">djaouad frih</a>
         </div>
       </footer>
 

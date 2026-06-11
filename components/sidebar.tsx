@@ -57,10 +57,14 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-border px-4 py-2">
-        <p className="text-[10px] text-muted-foreground text-center">
-          Powered by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">djaouad.tech</a>
+      <div className="border-t border-border px-4 py-3">
+        <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
+          Demo by <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">djaouad.tech</a>
+          <br />
+          Developer{' '}
+          <a href="https://djaouad.tech" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">djaouad frih</a>
         </p>
+        <p className="mt-1 text-[9px] text-muted-foreground/50 text-center">In-memory &middot; No DB</p>
       </div>
       <div className="border-t border-border p-4">
         <div className="mb-3 flex items-center gap-3 rounded-lg px-3 py-2">
