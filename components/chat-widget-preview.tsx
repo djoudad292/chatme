@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
-import { getSocketUrl } from '@/lib/api'
+import { apiFetch, getSocketUrl } from '@/lib/api'
 import { MessageSquare, X, Send } from 'lucide-react'
 
 interface Message {
@@ -41,14 +41,13 @@ export default function ChatWidgetPreview() {
 
     s.on('connect', () => {
       setConnected(true)
-      fetch(getSocketUrl() + '/conversations', {
+      apiFetch('/conversations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ companyId: 'preview' }),
       })
-        .then((r) => r.json())
-        .then((data) => {
+        .then((data: any) => {
           const id = data.id || data.conversationId
+          if (!id) { setError('Failed to create conversation'); return }
           setConversationId(id)
           s.emit('joinConversation', { conversationId: id })
           setMessages([
