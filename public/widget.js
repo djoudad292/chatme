@@ -355,9 +355,10 @@
         showBanner('Connection lost. Reconnecting…', 'lost');
       });
 
-      socket.on('receiveMessage', function (data) {
+      socket.on('newMessage', function (data) {
+        var content = typeof data.content === 'string' ? data.content : '';
         var msg = {
-          content: data.content,
+          content: content,
           senderType: data.senderType || 'assistant',
           timestamp: data.timestamp || timeStr(),
         };
@@ -377,8 +378,12 @@
 
       socket.on('aiResponse', function (data) {
         showTyping(false);
+        var content = '';
+        if (typeof data.content === 'string') content = data.content;
+        else if (data.message && typeof data.message.content === 'string') content = data.message.content;
+        else if (typeof data.message === 'string') content = data.message;
         var msg = {
-          content: data.content || data.message || '',
+          content: content,
           senderType: 'bot',
           timestamp: data.timestamp || timeStr(),
         };
