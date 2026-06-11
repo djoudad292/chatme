@@ -29,7 +29,7 @@ interface Message {
 }
 
 export default function InboxPage() {
-  const { isAuthenticated, isLoading: authLoading, user } = useAuth()
+  const { isAuthenticated, isLoading: authLoading, user, token } = useAuth()
   const router = useRouter()
   const { addToast } = useToast()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -65,7 +65,10 @@ export default function InboxPage() {
   }, [selectedConv, addToast])
 
   useEffect(() => {
-    const s = io(getSocketUrl(), { transports: ['websocket', 'polling'] })
+    const s = io(getSocketUrl(), {
+      transports: ['websocket', 'polling'],
+      auth: { token: token || '' },
+    })
     s.on('connect', () => setSocket(s))
     s.on('newMessage', (msg: Message) => {
       setMessages((prev) => {
