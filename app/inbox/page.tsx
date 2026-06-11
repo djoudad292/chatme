@@ -67,14 +67,25 @@ export default function InboxPage() {
   useEffect(() => {
     const s = io(getSocketUrl(), { transports: ['websocket', 'polling'] })
     s.on('connect', () => setSocket(s))
-    s.on('message', (msg: Message) => {
+    s.on('newMessage', (msg: Message) => {
       setMessages((prev) => {
         if (prev.some((m) => m.id === msg.id)) return prev
         return [...prev, msg]
       })
     })
-    s.on('conversation updated', (conv: Conversation) => {
-      setConversations((prev) => prev.map((c) => (c.id === conv.id ? conv : c)))
+    s.on('aiResponse', (data: { message: Message }) => {
+      if (data?.message) {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === data.message.id)) return prev
+          return [...prev, data.message]
+        })
+      }
+    })
+    s.on('takeover', () => {
+      addToast('Agent has taken over', 'info')
+    })
+    s.on('connected', () => {
+      addToast('Connected', 'success')
     })
     return () => { s.disconnect() }
   }, [])
