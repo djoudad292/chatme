@@ -19,6 +19,7 @@ export default function ChatWidgetPreview() {
   const [socket, setSocket] = useState<Socket | null>(null)
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [connected, setConnected] = useState(false)
+  const [error, setError] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -26,7 +27,13 @@ export default function ChatWidgetPreview() {
   }, [messages])
 
   useEffect(() => {
-    if (!open) return
+    if (!open) {
+      setMessages([])
+      setConversationId(null)
+      setConnected(false)
+      setError('')
+      return
+    }
 
     const s = io(getSocketUrl(), {
       transports: ['websocket', 'polling'],
@@ -34,32 +41,47 @@ export default function ChatWidgetPreview() {
 
     s.on('connect', () => {
       setConnected(true)
-      s.emit('start conversation', {
-        userId: 'preview-user',
-        userEmail: 'preview@demo.com',
-        userName: 'Preview User',
+      fetch(getSocketUrl() + '/conversations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId: 'preview' }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          const id = data.id || data.conversationId
+          setConversationId(id)
+          s.emit('joinConversation', { conversationId: id })
+          setMessages([
+            {
+              id: 'welcome',
+              content: 'Welcome! Type a message to test the AI.',
+              senderType: 'system',
+              createdAt: new Date().toISOString(),
+            },
+          ])
+        })
+        .catch(() => setError('Failed to create conversation'))
+    })
+
+    s.on('newMessage', (msg: Message) => {
+      setMessages((prev) => {
+        if (prev.some((m) => m.id === msg.id)) return prev
+        return [...prev, msg]
       })
     })
 
-    s.on('conversation created', (data: { conversationId: string }) => {
-      setConversationId(data.conversationId)
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: 'system-welcome',
-          content: 'Welcome! This is a live preview of your chat widget. Type a message to test the AI.',
-          senderType: 'system',
-          createdAt: new Date().toISOString(),
-        },
-      ])
-    })
-
-    s.on('message', (msg: Message) => {
-      setMessages((prev) => [...prev, msg])
+    s.on('aiResponse', (data: { message: Message; source?: string }) => {
+      if (data?.message) {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === data.message.id)) return prev
+          return [...prev, data.message]
+        })
+      }
     })
 
     s.on('disconnect', () => {
       setConnected(false)
+      setError('Connection lost')
     })
 
     setSocket(s)
@@ -73,36 +95,11 @@ export default function ChatWidgetPreview() {
   }, [open])
 
   const sendMessage = () => {
-    if (!input.trim() || !socket || !conversationId) return
-
-    const msg = {
-      content: input.trim(),
-      senderType: 'user' as const,
-    }
-
-    socket.emit('send message', {
-      conversationId,
-      message: msg,
-    })
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: `temp-${Date.now()}`,
-        content: input.trim(),
-        senderType: 'user',
-        createdAt: new Date().toISOString(),
-      },
-    ])
-
+    const text = input.trim()
+    if (!text || !socket || !conversationId) return
     setInput('')
-  }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage()
-    }
+    socket.emit('sendMessage', { conversationId, content: text })
   }
 
   return (
@@ -125,6 +122,12 @@ export default function ChatWidgetPreview() {
               <X className="h-5 w-5" />
             </button>
           </div>
+
+          {error && (
+            <div className="bg-red-500/10 border-b border-red-500/20 px-4 py-2 text-xs text-red-400 text-center">
+              {error}
+            </div>
+          )}
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((msg) => (
@@ -154,8 +157,8 @@ export default function ChatWidgetPreview() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type a message..."
+                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
+                placeholder={connected ? 'Type a message...' : 'Connecting...'}
                 className="flex-1 rounded-xl border border-border bg-secondary px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                 disabled={!connected}
               />
