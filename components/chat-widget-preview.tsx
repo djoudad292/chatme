@@ -37,6 +37,7 @@ export default function ChatWidgetPreview() {
 
     const s = io(getSocketUrl(), {
       transports: ['websocket', 'polling'],
+      timeout: 15000,
     })
 
     s.on('connect', () => {
@@ -81,6 +82,11 @@ export default function ChatWidgetPreview() {
     s.on('disconnect', () => {
       setConnected(false)
       setError('Connection lost')
+    })
+
+    s.on('connect_error', (err: Error) => {
+      setError(`Connection failed: ${err.message}`)
+      setConnected(false)
     })
 
     setSocket(s)

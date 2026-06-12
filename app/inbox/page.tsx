@@ -67,6 +67,7 @@ export default function InboxPage() {
   useEffect(() => {
     const s = io(getSocketUrl(), {
       transports: ['websocket', 'polling'],
+      timeout: 15000,
       auth: { token: token || '' },
     })
     s.on('connect', () => setSocket(s))

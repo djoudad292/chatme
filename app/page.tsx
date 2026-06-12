@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { MessageSquare, Bot, Zap, BookOpen, Users, BarChart3, ArrowRight } from 'lucide-react'
-import { useState } from 'react'
 import ChatWidgetPreview from '@/components/chat-widget-preview'
 
 const features = [
@@ -39,8 +38,6 @@ const features = [
 ]
 
 export default function LandingPage() {
-  const [showDemo, setShowDemo] = useState(false)
-
   return (
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 z-30 w-full border-b border-border bg-background/80 backdrop-blur-sm">
@@ -101,19 +98,16 @@ export default function LandingPage() {
                 Get Started
               </Link>
               <button
-                onClick={() => {
-                  setShowDemo(true)
-                  document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
-                }}
+                onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
                 className="rounded-xl border border-border px-8 py-3 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
               >
-                Live Demo
+                Learn More
               </button>
             </div>
           </div>
         </section>
 
-        <section className="py-20">
+        <section id="features" className="py-20">
           <div className="mx-auto max-w-7xl px-6">
             <h2 className="animate-fade-in-up text-center text-3xl font-bold text-foreground">
               Everything you need to scale support
@@ -141,16 +135,6 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {showDemo && (
-          <section id="demo" className="py-20">
-            <div className="mx-auto max-w-7xl px-6 text-center">
-              <h2 className="text-3xl font-bold text-foreground">Live Demo</h2>
-              <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-                Try the chat widget below. This is a live preview connected to the AI backend.
-              </p>
-            </div>
-          </section>
-        )}
       </main>
 
       <footer className="border-t border-border py-8">
@@ -162,7 +146,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {showDemo && <ChatWidgetPreview />}
+      <ChatWidgetPreview />
     </div>
   )
 }
