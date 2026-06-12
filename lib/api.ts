@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+const API_URL = 'https://chatbot-temp.onrender.com'
 
 export async function apiFetch(path: string, options?: RequestInit) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
@@ -18,5 +18,5 @@ export async function apiFetch(path: string, options?: RequestInit) {
 }
 
 export function getSocketUrl() {
-  return process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:4000'
+  return 'https://chatbot-temp.onrender.com'
 }
